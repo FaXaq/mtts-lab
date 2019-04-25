@@ -6890,8 +6890,9 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
-mtts@../mtts:
+"mtts@https://github.com/FaXaq/mtts":
   version "0.0.1"
+  resolved "https://github.com/FaXaq/mtts#e7203671a9c8d1ae12bc3cb8a9ab34ee8dff7471"
 
 mustache@^2.3.0:
   version "2.3.2"

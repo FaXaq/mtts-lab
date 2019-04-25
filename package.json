@@ -17,7 +17,7 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^2.6.0",
     "cross-env": "^5.2.0",
-    "mtts": "../mtts",
+    "mtts": "https://github.com/FaXaq/mtts",
     "nuxt": "^2.4.0",
     "ts-node": "^8.1.0",
     "vue-property-decorator": "^8.1.0"
