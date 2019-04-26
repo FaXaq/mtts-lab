@@ -1,6 +1,6 @@
 export class Player {
   ac: AudioContext = new AudioContext()
-  g: { string: GainNode } = {}
+  g: { [key: string]: GainNode } = {}
   cc: number = 0
 
   get gainLength(): number {
