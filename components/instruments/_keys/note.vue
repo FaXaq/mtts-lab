@@ -63,7 +63,8 @@ export default class KeyNote extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.playing {
-  zoom: 0.3;
+.playing,
+.black.playing {
+  background-color: red !important;
 }
 </style>

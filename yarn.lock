@@ -7111,8 +7111,9 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
-mtts@../mtts:
+"mtts@https://github.com/faxaq/mtts":
   version "0.0.1"
+  resolved "https://github.com/faxaq/mtts#23a8da84cd2f36d858ab2387aff9e3e4003917d4"
 
 mustache@^2.3.0:
   version "2.3.2"

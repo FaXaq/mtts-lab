@@ -25,7 +25,6 @@ export class Player {
   }
 
   play(f: number): (() => void) {
-    console.log('playing', f, 'hz');
     const o = this.addOscilator()
     const [g, gIndex] = this.addGainChannel()
     o.type = 'sine'

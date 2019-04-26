@@ -90,19 +90,20 @@ div.keys {
   height: 200px;
   width: auto;
   > div.keys-note {
-    width: 20px;
+    width: 35px;
     border-radius: 4px;
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
 
     &.black {
       background-color: grey;
-      width: 15px;
+      width: 20px;
       height: 50%;
-      margin-left: -7.5px;
+      margin-left: -10px;
       z-index: 2;
+      color: white;
 
       & + .white {
-        margin-left: -7.5px;
+        margin-left: -10px;
       }
     }
   }
