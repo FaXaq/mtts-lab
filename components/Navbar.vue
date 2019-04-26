@@ -8,6 +8,13 @@
           >Home
         </nuxt-link>
       </li>
+      <li class="mr-6">
+        <nuxt-link
+          to="/instruments/piano"
+          class="no-underline block p-2 text-blue hover:text-blue-darker"
+          >Piano
+        </nuxt-link>
+      </li>
     </ul>
   </nav>
 </template>
