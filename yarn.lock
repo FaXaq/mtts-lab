@@ -1629,6 +1629,10 @@
     "@types/webpack" "*"
     terser "^3.16.1"
 
+"@types/tone@https://github.com/Tonejs/TypeScript.git":
+  version "0.2.0"
+  resolved "https://github.com/Tonejs/TypeScript.git#a8ea351b47459b3be26b14e13d6b67ba12e202f5"
+
 "@types/uglify-js@*":
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/@types/uglify-js/-/uglify-js-3.0.4.tgz#96beae23df6f561862a830b4288a49e86baac082"

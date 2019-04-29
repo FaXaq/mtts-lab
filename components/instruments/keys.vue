@@ -63,11 +63,11 @@ export default class Keys extends Vue {
   synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
 
   play(note: Note) {
-    this.synth.triggerAttack(note.frequency)
+    this.synth.triggerAttack([note.frequency])
   }
 
   stop(note: Note) {
-    this.synth.triggerRelease(note.frequency)
+    this.synth.triggerRelease([note.frequency])
   }
 
   getKeyBinding(n: Note, k: number): string | undefined {
