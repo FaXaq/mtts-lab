@@ -1,10 +1,9 @@
 <template>
   <div class="keys w-6 flex">
     <key-note
-      v-for="(n, k) in notePlayers"
-      :id="k"
+      v-for="(n, k) in notes"
       :key="k"
-      :np="n"
+      :note="n"
       :key-binding="getKeyBinding(n, k)"
       @play="play"
       @stop="stop"
@@ -15,52 +14,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Note, Pitch } from 'mtts'
+import Tone from 'tone'
 
 // components
 import KeyNote from '@/components/instruments/_keys/note.vue'
-import { player } from '@/services/Player'
-
-export class NotePlayer {
-  private _note!: Note
-  private _playing!: boolean
-
-  constructor(note: Note) {
-    this.note = note
-    this.playing = false
-  }
-
-  get note(): Note {
-    return this._note
-  }
-
-  set note(note: Note) {
-    this._note = note
-  }
-
-  get playing(): boolean {
-    return this._playing
-  }
-
-  set playing(playing: boolean) {
-    this._playing = playing
-  }
-
-  play() {
-    if (!this.playing) {
-      this.playing = true
-      this.stopCallback = player.play(this.note.frequency)
-    }
-  }
-
-  stop() {
-    if (this.playing) {
-      this.playing = false
-      this.stopCallback()
-    }
-  }
-
-  stopCallback() {}
-}
 
 @Component({
   components: {
@@ -83,7 +40,7 @@ export default class Keys extends Vue {
   @Prop({ default: 11 })
   noteNumber!: number
 
-  keyBindings = [
+  keyBindings: string[] = [
     'q',
     'z',
     's',
@@ -103,14 +60,14 @@ export default class Keys extends Vue {
     'm'
   ]
 
-  notePlayers: NotePlayer[] = []
+  synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
 
-  play(id: number) {
-    this.notePlayers[id].play()
+  play(note: Note) {
+    this.synth.triggerAttack(note.frequency)
   }
 
-  stop(id: number) {
-    this.notePlayers[id].stop()
+  stop(note: Note) {
+    this.synth.triggerRelease(note.frequency)
   }
 
   getKeyBinding(n: Note, k: number): string | undefined {
@@ -119,12 +76,12 @@ export default class Keys extends Vue {
     }
   }
 
-  initNotePlayers(): NotePlayer[] {
-    const notes: NotePlayer[] = [new NotePlayer(this.startNote)]
+  get notes(): Note[] {
+    const notes: Note[] = [new Note(this.startNote)]
 
     for (let i = 0; i < this.noteNumber; i++) {
       // duplicate last note
-      const d: Note = notes[notes.length - 1].note.duplicate()
+      const d: Note = notes[notes.length - 1].duplicate()
       // if it doesn't have an accidental and is different from B or E then add a sharp
       if (!d.hasAccidental() && !d.isBorE()) {
         d.addSharp()
@@ -133,14 +90,10 @@ export default class Keys extends Vue {
         d.removeAccidental()
         d.next()
       }
-      notes.push(new NotePlayer(d))
+      notes.push(d)
     }
 
     return notes
-  }
-
-  created() {
-    this.notePlayers = this.initNotePlayers()
   }
 }
 </script>

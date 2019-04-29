@@ -2,9 +2,9 @@
   <div
     class="keys-note"
     :class="{
-      white: !np.note.hasAccidental(),
-      black: np.note.hasAccidental(),
-      active: np.playing
+      white: !note.hasAccidental(),
+      black: note.hasAccidental(),
+      active: playing
     }"
   >
     <span v-if="keyBinding">{{ keyBinding }}</span>
@@ -14,41 +14,39 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Note } from 'mtts' // eslint-disable-line no-unused-vars
-import { NotePlayer } from '../keys.vue' // eslint-disable-line no-unused-vars
 
 @Component({})
 export default class KeyNote extends Vue {
   @Prop({
     required: true
   })
-  np!: NotePlayer
+  note!: Note
   @Prop({
     required: false
   })
   keyBinding?: string
-  @Prop({
-    required: true
-  })
-  id!: number
+  playing: boolean = false
 
   play() {
-    this.$emit('play', this.id)
+    this.playing = true
+    this.$emit('play', this.note)
   }
 
   stop() {
-    this.$emit('stop', this.id)
+    this.playing = false
+    this.$emit('stop', this.note)
   }
 
   created() {
     if (this.keyBinding !== undefined) {
       document.addEventListener('keypress', e => {
-        if (e.key === this.keyBinding && !this.np.playing) {
+        if (e.key === this.keyBinding && !this.playing) {
           this.play()
         }
       })
 
       document.addEventListener('keyup', e => {
-        if (e.key === this.keyBinding && this.np.playing) {
+        if (e.key === this.keyBinding && this.playing) {
           this.stop()
         }
       })
