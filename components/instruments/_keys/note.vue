@@ -2,13 +2,10 @@
   <div
     class="keys-note"
     :class="{
-      white: !note.hasAccidental(),
-      black: note.hasAccidental(),
-      playing: playing
+      white: !np.note.hasAccidental(),
+      black: np.note.hasAccidental(),
+      active: np.playing
     }"
-    @mouseenter="play()"
-    @mouseup="stop()"
-    @mouseout="stop()"
   >
     <span v-if="keyBinding">{{ keyBinding }}</span>
   </div>
@@ -17,43 +14,41 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Note } from 'mtts' // eslint-disable-line no-unused-vars
-import { player, Player } from '@/services/Player' // eslint-disable-line no-unused-vars
+import { NotePlayer } from '../keys.vue' // eslint-disable-line no-unused-vars
 
 @Component({})
 export default class KeyNote extends Vue {
   @Prop({
     required: true
   })
-  note!: Note
+  np!: NotePlayer
   @Prop({
     required: false
   })
   keyBinding?: string
-  player: Player = player
-  playing: boolean = false
+  @Prop({
+    required: true
+  })
+  id!: number
 
   play() {
-    this.playing = true
-    this.stopCB = this.player.play(this.note.frequency)
+    this.$emit('play', this.id)
   }
 
   stop() {
-    this.playing = false
-    this.stopCB()
+    this.$emit('stop', this.id)
   }
-
-  stopCB() {}
 
   created() {
     if (this.keyBinding !== undefined) {
       document.addEventListener('keypress', e => {
-        if (e.key === this.keyBinding && !this.playing) {
+        if (e.key === this.keyBinding && !this.np.playing) {
           this.play()
         }
       })
 
       document.addEventListener('keyup', e => {
-        if (e.key === this.keyBinding && this.playing) {
+        if (e.key === this.keyBinding && this.np.playing) {
           this.stop()
         }
       })
@@ -63,8 +58,8 @@ export default class KeyNote extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.playing,
-.black.playing {
+.active,
+.black.active {
   background-color: red !important;
 }
 </style>

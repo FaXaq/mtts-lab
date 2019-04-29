@@ -2,10 +2,7 @@ export class Player {
   ac: AudioContext = new AudioContext()
   g: { [key: string]: GainNode } = {}
   cc: number = 0
-
-  get gainLength(): number {
-    return Object.keys(this.g).length;
-  }
+  _outputVolume: number = 1
 
   addOscilator(): OscillatorNode {
     return this.ac.createOscillator()
@@ -13,7 +10,7 @@ export class Player {
 
   updateGain() {
     for (let i in this.g) {
-      this.g[i].gain.value = 0.8 / this.gainLength
+      this.g[i].gain.value = Math.sqrt(this.outputVolume / this.gainLength)
     }
   }
 
@@ -37,12 +34,23 @@ export class Player {
   }
 
   stop(g: GainNode, i: number) {
-    g.gain.exponentialRampToValueAtTime(0.0001, this.ac.currentTime + 0.04)
+    g.gain.exponentialRampToValueAtTime(0.0001, this.ac.currentTime + 0.1)
     setTimeout(() => {
       this.g[i].disconnect()
-      delete this.g[i]
       this.updateGain()
-    }, 40)
+    }, 100)
+  }
+
+  get gainLength(): number {
+    return Object.keys(this.g).length
+  }
+
+  get outputVolume(): number {
+    return this._outputVolume
+  }
+
+  set outputVolume(volume: number) {
+    this._outputVolume = volume
   }
 }
 
