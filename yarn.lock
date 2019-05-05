@@ -7117,7 +7117,7 @@ ms@^2.1.1:
 
 "mtts@https://github.com/faxaq/mtts":
   version "0.0.1"
-  resolved "https://github.com/faxaq/mtts#23a8da84cd2f36d858ab2387aff9e3e4003917d4"
+  resolved "https://github.com/faxaq/mtts#33dfbcb58e181cb2286ca817cd4d4f07ff99803c"
 
 mustache@^2.3.0:
   version "2.3.2"
@@ -10890,6 +10890,11 @@ webidl-conversions@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
   integrity sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==
+
+webmidi@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/webmidi/-/webmidi-2.3.3.tgz#26ed86a1a8063da2d95fe299419519346cba603a"
+  integrity sha512-NYePCdUdQ5W0ZvBkQ1aYyzV6gZ96TVcO9T02sGcsRfiSHE8nda1752DGjA+vvOlo0bEbMYqgOrjusBBCALdwFQ==
 
 webpack-bundle-analyzer@^3.3.2:
   version "3.3.2"

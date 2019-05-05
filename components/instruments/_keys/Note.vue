@@ -4,7 +4,8 @@
     :class="{
       white: !note.hasAccidental(),
       black: note.hasAccidental(),
-      active: playing
+      active: active,
+      playing: playing
     }"
   >
     <span v-if="keyBinding">{{ keyBinding }}</span>
@@ -12,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Note } from 'mtts' // eslint-disable-line no-unused-vars
 
 @Component({})
@@ -25,29 +26,42 @@ export default class KeyNote extends Vue {
     required: false
   })
   keyBinding?: string
+  @Prop({
+    default: false
+  })
+  active!: boolean
   playing: boolean = false
 
-  play() {
+  press() {
     this.playing = true
-    this.$emit('play', this.note)
+    this.$emit('press', this.note)
   }
 
-  stop() {
+  release() {
     this.playing = false
-    this.$emit('stop', this.note)
+    this.$emit('release', this.note)
+  }
+
+  @Watch('active')
+  activateNote(v: boolean) {
+    if (v) {
+      this.press()
+    } else {
+      this.release()
+    }
   }
 
   created() {
     if (this.keyBinding !== undefined) {
       document.addEventListener('keypress', e => {
         if (e.key === this.keyBinding && !this.playing) {
-          this.play()
+          this.press()
         }
       })
 
       document.addEventListener('keyup', e => {
         if (e.key === this.keyBinding && this.playing) {
-          this.stop()
+          this.release()
         }
       })
     }
@@ -58,6 +72,11 @@ export default class KeyNote extends Vue {
 <style lang="scss" scoped>
 .active,
 .black.active {
-  background-color: red !important;
+  background-color: #66c0cc !important;
+}
+
+.playing,
+.black.playing {
+  background-color: #997fb3 !important;
 }
 </style>

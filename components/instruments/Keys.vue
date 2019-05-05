@@ -5,8 +5,10 @@
       :key="k"
       :note="n"
       :key-binding="getKeyBinding(n, k)"
-      @play="play"
-      @stop="stop"
+      :active="isNoteActive(n)"
+      :play-active-note="playActiveNotes"
+      @press="play"
+      @release="stop"
     ></key-note>
   </div>
 </template>
@@ -14,10 +16,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Note, Pitch } from 'mtts'
-import Tone from 'tone'
 
 // components
-import KeyNote from '@/components/instruments/_keys/note.vue'
+import KeyNote from '@/components/instruments/_keys/Note.vue'
 
 @Component({
   components: {
@@ -37,8 +38,14 @@ export default class Keys extends Vue {
   })
   startNote!: Note
 
+  @Prop({ default: [] })
+  activeNotes!: Note[]
+
   @Prop({ default: 11 })
   noteNumber!: number
+
+  @Prop({ default: false })
+  playActiveNotes!: boolean
 
   keyBindings: string[] = [
     'q',
@@ -60,14 +67,20 @@ export default class Keys extends Vue {
     'm'
   ]
 
-  synth = new Tone.PolySynth(6, Tone.Synth).toMaster()
-
   play(note: Note) {
-    this.synth.triggerAttack([note.frequency])
+    this.$emit('play', note)
   }
 
   stop(note: Note) {
-    this.synth.triggerRelease([note.frequency])
+    this.$emit('stop', note)
+  }
+
+  isNoteActive(testNote: Note): boolean {
+    return (
+      this.activeNotes.filter((n: Note) => {
+        return Note.getSemitonesBetween(n, testNote) === 0
+      }).length > 0
+    )
   }
 
   getKeyBinding(n: Note, k: number): string | undefined {
@@ -108,7 +121,7 @@ div.keys {
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.3);
 
     &.black {
-      background-color: grey;
+      background-color: #332640;
       width: 20px;
       height: 50%;
       border-radius: 4px;

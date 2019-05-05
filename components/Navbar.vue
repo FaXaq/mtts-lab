@@ -1,6 +1,6 @@
 <template>
-  <nav>
-    <ul class="list-reset flex lg:fixed">
+  <nav class="lg:fixed lg:w-100">
+    <ul class="list-reset flex">
       <li class="mr-6">
         <nuxt-link
           to="/"
@@ -13,6 +13,13 @@
           to="/instruments/piano"
           class="no-underline block p-2 text-blue hover:text-blue-darker"
           >Piano
+        </nuxt-link>
+      </li>
+      <li class="mr-6">
+        <nuxt-link
+          to="/instruments/rythmbox"
+          class="no-underline block p-2 text-blue hover:text-blue-darker"
+          >rythmbox
         </nuxt-link>
       </li>
     </ul>
