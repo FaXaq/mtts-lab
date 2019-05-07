@@ -4,8 +4,8 @@
       <drum-pad
         v-for="i in pads"
         :key="i"
-        @rightClick="displayContextMenu"
         class="shadow"
+        @rightClick="displayContextMenu"
       />
     </div>
     <div v-if="controls" class="pads-controls w-6 flex flex-col">

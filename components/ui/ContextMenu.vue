@@ -7,8 +7,8 @@
       <li
         v-for="(i, k) in items"
         :key="k"
-        @click="select(i)"
         class="p-4 cursor-pointer hv:color-grey"
+        @click="select(i)"
       >
         {{ i }}
       </li>
@@ -52,9 +52,4 @@ export default class ContextMenu extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-ul {
-  li {
-  }
-}
-</style>
+<style lang="scss" scoped></style>

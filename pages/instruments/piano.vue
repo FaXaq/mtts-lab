@@ -1,9 +1,5 @@
 <template>
   <div class="container w-screen flex flex-col max-w-full">
-    <drop-select
-      :options="MIDIInputsNames"
-      @select="updateMIDIInput"
-    ></drop-select>
     <keys
       :start-note="startNote"
       :note-number="noteNumber"
@@ -16,22 +12,29 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Watch } from 'vue-property-decorator'
 import { Note, Pitch, Accidental } from 'mtts'
 import Tone from 'tone'
 import webmidi, { Input } from 'webmidi' // eslint-disable-line no-unused-vars
+import { mapGetters } from 'vuex'
 
 // components
 import { MIDIInstrument } from '@/components/instruments/MIDIInstrument'
 import Keys from '@/components/instruments/Keys.vue'
 import NoteSelect from '@/components/NoteSelect.vue'
 import DropSelect from '@/components/ui/form/DropSelect.vue'
+import { IMIDIState } from 'store/midi' // eslint-disable-line no-unused-vars
 
 @Component({
   components: {
     DropSelect,
     Keys,
     NoteSelect
+  },
+  computed: {
+    ...mapGetters('midi', {
+      currentMIDIInput: 'input'
+    })
   }
 })
 export default class Piano extends MIDIInstrument {
@@ -54,23 +57,10 @@ export default class Piano extends MIDIInstrument {
     this.synth.triggerRelease([note.frequency])
   }
 
-  get MIDIInputsNames(): string[] {
-    return this.MIDIInputs.map((i: Input) => i.name)
-  }
-
-  updateMIDIInput(name: string) {
-    const MIDIInput: Input | boolean = webmidi.getInputByName(name)
-    if (MIDIInput !== false) {
-      console.log(`Selected midi input ${MIDIInput.name}`) // eslint-disable-line no-console
-      this.currentMIDIInput = MIDIInput
-    } else {
-      console.log(`Selected no midi input ${MIDIInput}`) // eslint-disable-line no-console
-    }
-  }
-
   @Watch('currentMIDIInput')
   updateMIDISource(newInput: Input, oldInput: Input) {
-    if (oldInput !== null) {
+    console.log('changeing midi input') // eslint-disable-line no-console
+    if (oldInput) {
       this.removeMIDIListeners(oldInput)
     }
 
@@ -115,18 +105,16 @@ export default class Piano extends MIDIInstrument {
     input.removeListener()
   }
 
-  requestMidiAccess() {
-    webmidi.enable(err => {
-      if (err) {
-        console.log(err) // eslint-disable-line no-console
-      } else {
-        this.MIDIInputs = webmidi.inputs
-      }
-    })
+  created() {
+    if (this.currentMIDIInput) {
+      this.addMIDIListeners(this.currentMIDIInput)
+    }
   }
 
-  created() {
-    this.requestMidiAccess()
+  beforeDestroy() {
+    if (this.currentMIDIInput) {
+      this.removeMIDIListeners(this.currentMIDIInput)
+    }
   }
 }
 </script>

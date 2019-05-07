@@ -52,6 +52,7 @@
     "nodemon": "^1.18.9",
     "prettier": "^1.16.4",
     "tailwindcss": "^0.7.0",
-    "vue-jest": "^3.0.3"
+    "vue-jest": "^3.0.3",
+    "vuex-module-decorators": "^0.9.8"
   }
 }

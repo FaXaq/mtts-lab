@@ -22,15 +22,45 @@
           >rythmbox
         </nuxt-link>
       </li>
+      <li class="mr-6 self-end">
+        <drop-select
+          :options="MIDIInputsNames"
+          @select="selectMIDIInput"
+        ></drop-select>
+      </li>
     </ul>
   </nav>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import webmidi, { Input } from 'webmidi' // eslint-disable-line no-unused-vars
 
-@Component({})
-export default class NewComponent extends Vue {}
+// components
+import DropSelect from '@/components/ui/form/DropSelect.vue'
+import { mapGetters } from 'vuex'
+
+@Component({
+  components: {
+    DropSelect
+  },
+  computed: {
+    ...mapGetters('midi', {
+      MIDIInputsNames: 'inputsNames'
+    })
+  }
+})
+export default class NavBar extends Vue {
+  MIDIInputsNames!: Input[]
+
+  selectMIDIInput(name: string) {
+    this.$store.dispatch('midi/selectInput', name)
+  }
+
+  created() {
+    this.$store.dispatch('midi/init')
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
